@@ -1,3 +1,4 @@
 {
-  "links": ["https://youtu.be/4v3k82yL25w"]
+  "links": ["https://youtu.be/4v3k82yL25w"],
+  "outputDir": "dist"
 }

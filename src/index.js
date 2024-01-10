@@ -1,13 +1,14 @@
-import QRCode from "qrcode";
+const QRCode = require("qrcode");
+const fs = require("fs");
 
-import config from "../config.json" assert { type: "json", integrity: "sha384-ABC123" };
+const config = require("../config.json");
 
-const generateQR = async (links) => {
+const generateQR = async ({ links, outputDir }) => {
   try {
     const linksArray = Array.isArray(links) ? links : [links];
 
     const promises = linksArray.map((link, index) =>
-      QRCode.toFile(`dist/image-${index + 1}.png`, link, {
+      QRCode.toFile(`${outputDir}/image-${index + 1}.png`, link, {
         type: "png",
         width: 256,
         errorCorrectionLevel: "L",
@@ -20,4 +21,8 @@ const generateQR = async (links) => {
   }
 };
 
-generateQR(config.links);
+if (!fs.existsSync(config.outputDir)) {
+  fs.mkdirSync(config.outputDir);
+}
+
+generateQR(config);
