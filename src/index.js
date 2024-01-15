@@ -7,15 +7,21 @@ const generateQR = async ({ links, outputDir, format, margin, color }) => {
   try {
     const linksArray = Array.isArray(links) ? links : [links];
 
-    const promises = linksArray.map((link, index) =>
-      QRCode.toFile(`${outputDir}/image-${index + 1}.${format}`, link, {
-        type: format,
-        width: 256,
-        errorCorrectionLevel: "L",
-        margin,
-        color,
-      })
-    );
+    const promises = linksArray.map(({ url, fileName }) => {
+      if (!fileName) return;
+
+      return QRCode.toFile(
+        `pictures/${outputDir.trim()}/${fileName}.${format}`,
+        url,
+        {
+          type: format,
+          width: 300,
+          errorCorrectionLevel: "L",
+          margin,
+          color,
+        }
+      );
+    });
 
     await Promise.all(promises);
   } catch (err) {
@@ -23,8 +29,12 @@ const generateQR = async ({ links, outputDir, format, margin, color }) => {
   }
 };
 
-if (!fs.existsSync(config.outputDir)) {
-  fs.mkdirSync(config.outputDir);
+if (!fs.existsSync("pictures")) {
+  fs.mkdirSync("pictures");
+}
+
+if (!fs.existsSync(`pictures/${config.outputDir.trim()}`)) {
+  fs.mkdirSync(`pictures/${config.outputDir.trim()}`);
 }
 
 generateQR(config);

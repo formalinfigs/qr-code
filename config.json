@@ -1,10 +1,10 @@
 {
-  "links": ["https://youtu.be/4v3k82yL25w"],
-  "outputDir": "dist",
   "format": "png",
   "margin": 1,
   "color": {
     "dark": "#000000ff",
     "light": "#ffffffff"
-  }
+  },
+  "links": [],
+  "outputDir": ""
 }
